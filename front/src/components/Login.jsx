@@ -31,11 +31,10 @@ function Login(params) {
               value={password}
               onChange={(e) => setPassword(e.target.value)}
             />
-            <Link to={"/"}>
-              <button className="w-full bg-blue-600 text-white py-2 rounded">
-                Ingresar
-              </button>
-            </Link>
+
+            <button className="w-full bg-blue-600 text-white py-2 rounded">
+              Ingresar
+            </button>
           </div>
         </div>
       </form>

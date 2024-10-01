@@ -7,12 +7,17 @@ function NuevoComentario() {
   const [comments, setComments] = useState([]);
   const [newComment, setNewComment] = useState("");
   const [post, setPost] = useState([]);
+  const [isDelete, setIsDelete] = useState([]);
+
+  const getCommentarios = () => {
+    fetch(`http://localhost:8080/comments/comments/${postId}`)
+      .then((response) => response.json())
+      .then((data) => setComments(data));
+  };
 
   useEffect(() => {
     if (postId) {
-      fetch(`http://localhost:8080/comments/comments/${postId}`)
-        .then((response) => response.json())
-        .then((data) => setComments(data));
+      getCommentarios();
     }
   }, [postId]);
   useEffect(() => {
@@ -34,10 +39,22 @@ function NuevoComentario() {
       body: JSON.stringify({ content: newComment }),
     })
       .then((response) => response.json())
-      .then((data) => setComments(...comments, data));
+      .then((data) => {
+        setComments([...comments, data]);
+        setNewComment("");
+      });
   };
-  console.log(comments);
-
+  const eliminarComentario = async (id) => {
+    console.log(id);
+    const res = await fetch(`http://localhost:8080/comments/comments/${id}`, {
+      method: "DELETE",
+      credentials: "include", //que mande las cookies//
+    });
+    console.log(res);
+    if (res.status === 200) {
+      getCommentarios();
+    }
+  };
   return (
     <div>
       <div className="bg-white p-6 rounded-xl shadow-md">
@@ -56,7 +73,15 @@ function NuevoComentario() {
           {comments.length > 0 &&
             comments.map((c) => (
               <ul className="list-none space-y-2 mt-2" key={c._id}>
-                <li className="text-gray-600">💬 {c.content}</li>
+                <li className="flex items-center text-gray-600">
+                  <span>💬 {c.content}</span>
+                  <button
+                    className="bg-red-500 text-white py-1 px-2 rounded ml-5"
+                    onClick={() => eliminarComentario(c._id)}
+                  >
+                    Eliminar comentario
+                  </button>
+                </li>
               </ul>
             ))}
         </div>
@@ -67,6 +92,7 @@ function NuevoComentario() {
           <textarea
             className="w-full p-2 border border-gray-300 rounded mb-4"
             placeholder="Escribe tu comentario aquí..."
+            value={newComment}
             onChange={(e) => setNewComment(e.target.value)}
           ></textarea>
           <button

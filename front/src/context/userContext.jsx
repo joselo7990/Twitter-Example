@@ -13,6 +13,7 @@ export default function UserContextProvider({ children }) {
         headers: {
           "Content-Type": "application/json", // Asegúrate de especificar el tipo de contenido como JSON
         },
+        credentials: "include", //que mande las cookies//
         body: JSON.stringify(data),
       });
       if (res.status === 201) {
@@ -31,12 +32,12 @@ export default function UserContextProvider({ children }) {
         headers: {
           "Content-Type": "application/json", // Asegúrate de especificar el tipo de contenido como JSON
         },
+        credentials: "include", //que mande las cookies//
         body: JSON.stringify(data),
       });
       if (res.status === 200) {
         console.log("Correcto");
-        window.document.cookie =
-          "token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6Im1hcmlvQG1hcmlvIiwiaWF0IjoxNzI3MjAzODEyLCJleHAiOjE3Mjc4MDg2MTJ9.y2_EX9BgLOyx2DeCYfrFSWS0QHI_SDiI9xTPmFFUMHU; Max-Age=604800; Path=/; Expires=Tue, 01 Oct 2024 18:50:12 GMT";
+
         alert("LOGEADO");
       }
     } catch (error) {

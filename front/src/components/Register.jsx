@@ -38,11 +38,10 @@ function Registrer(params) {
               value={name}
               onChange={(e) => setName(e.target.value)}
             />
-            <Link to={"/"}>
-              <button className="w-full bg-blue-600 text-white py-2 rounded">
-                Registrarse
-              </button>
-            </Link>
+
+            <button className="w-full bg-blue-600 text-white py-2 rounded">
+              Registrarse
+            </button>
           </div>
         </div>
       </form>

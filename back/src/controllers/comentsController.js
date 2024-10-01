@@ -24,6 +24,7 @@ export const deleteComments = async (req, res) => {
     // identificador unico del comentario y guardo el id de la base de datos
     const comment = await Comment.findOne({ _id: commentId });
     // si el que realizo el comentario es igual al usuario
+    console.log(comment.author.toString(), user.toString());
     if (comment.author.toString() === user.toString()) {
       // elimino el comentario
 

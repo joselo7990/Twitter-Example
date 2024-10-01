@@ -16,7 +16,7 @@ export const getAllPost = async (req, res) => {
 
 export const createPost = async (req, res) => {
   const { title, content } = req.body;
-  console.log(req.user);
+
   try {
     // Crear el post si el título y el contenido están presentes
     if (title && content) {
@@ -46,7 +46,7 @@ export const createPost = async (req, res) => {
 export const getPostByID = async (req, res) => {
   const postId = req.params.postId;
   try {
-    const post = await Post.findById(postId);
+    const post = await Post.findById(postId).populate("author");
     res.status(200).json(post);
   } catch (error) {
     res.status(500).json({ message: error });
