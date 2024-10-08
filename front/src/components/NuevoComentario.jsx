@@ -1,8 +1,10 @@
 import React from "react";
 import { Link, useParams } from "react-router-dom";
-import { useEffect, useState } from "react";
+import { useEffect, useState, useContext } from "react";
+import { UserContext } from "../context/userContext";
 
 function NuevoComentario() {
+  const { user } = useContext(UserContext);
   const { postId } = useParams();
   const [comments, setComments] = useState([]);
   const [newComment, setNewComment] = useState("");
@@ -40,17 +42,18 @@ function NuevoComentario() {
     })
       .then((response) => response.json())
       .then((data) => {
-        setComments([...comments, data]);
+        setComments([...comments, { ...data, name: user.name }]);
+
         setNewComment("");
       });
   };
+
   const eliminarComentario = async (id) => {
-    console.log(id);
     const res = await fetch(`http://localhost:8080/comments/comments/${id}`, {
       method: "DELETE",
       credentials: "include", //que mande las cookies//
     });
-    console.log(res);
+
     if (res.status === 200) {
       getCommentarios();
     }
@@ -74,7 +77,8 @@ function NuevoComentario() {
             comments.map((c) => (
               <ul className="list-none space-y-2 mt-2" key={c._id}>
                 <li className="flex items-center text-gray-600">
-                  <span>💬 {c.content}</span>
+                  <p className="mr-2"> {c.content} </p>
+                  <p> Creado por : {c.author.name || c.name}</p>
                   <button
                     className="bg-red-500 text-white py-1 px-2 rounded ml-5"
                     onClick={() => eliminarComentario(c._id)}

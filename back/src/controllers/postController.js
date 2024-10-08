@@ -5,7 +5,7 @@ import mongoose from "mongoose";
 export const getAllPost = async (req, res) => {
   try {
     //buscar todos los posteos
-    const posteos = await Post.find();
+    const posteos = await Post.find().populate("author");
     res.status(200).json(posteos);
   } catch (error) {
     res.status(500).json({ error });
@@ -57,7 +57,6 @@ export const getPostByID = async (req, res) => {
 
 export const deleteById = async (req, res) => {
   const postId = req.params.postId;
-  console.log(postId);
 
   try {
     const post = await Post.findOne({ _id: postId });

@@ -3,7 +3,9 @@ import { createContext, useState, useEffect } from "react";
 export const UserContext = createContext(null);
 
 export default function UserContextProvider({ children }) {
-  const [user, setUser] = useState([]);
+  const [user, setUser] = useState(
+    JSON.parse(window.localStorage.getItem("user")) || null
+  );
 
   //RegistrarunUusuario
   const register = async (data) => {
@@ -38,18 +40,36 @@ export default function UserContextProvider({ children }) {
       if (res.status === 200) {
         console.log("Correcto");
 
-        alert("LOGEADO");
+        const data = await res.json();
+
+        setUser(data.user);
+        window.localStorage.setItem("user", JSON.stringify(data.user));
       }
     } catch (error) {
       console.log(error);
     }
   };
 
+  const logOut = async () => {
+    const res = await fetch("http://localhost:8080/users/logout", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json", // Asegúrate de especificar el tipo de contenido como JSON
+      },
+      credentials: "include", //que mande las cookies//
+    });
+    if (res.status === 200) {
+      window.localStorage.removeItem("user");
+      setUser(null);
+    }
+  };
   return (
     <UserContext.Provider
       value={{
         register,
         logIn,
+        user,
+        logOut,
       }}
     >
       {children}

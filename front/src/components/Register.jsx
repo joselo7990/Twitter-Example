@@ -1,7 +1,9 @@
 import { useState, useContext } from "react";
 import { UserContext } from "../context/userContext";
-import { Link } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
+
 function Registrer(params) {
+  const navigate = useNavigate();
   const { register } = useContext(UserContext);
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -10,6 +12,7 @@ function Registrer(params) {
   const handleSubmit = async (e) => {
     e.preventDefault();
     await register({ email, password, name });
+    navigate("/login");
   };
   return (
     <div className="flex justify-center items-center min-h-screen bg-gray-100">

@@ -7,7 +7,7 @@ import User from "../models/Users.js";
 export const getComments = async (req, res) => {
   const { postId } = req.params;
   try {
-    const comment = await Comment.find({ postId });
+    const comment = await Comment.find({ postId }).populate("author");
     res.status(200).json(comment);
   } catch (error) {
     res.status(500).json({ error: error });

@@ -28,7 +28,9 @@ export const createUser = async (req, res) => {
     res.status(500).json({ err });
   }
 };
-
+export const logOut = (req, res) => {
+  res.clearCookie("token").end();
+};
 export const logIn = async (req, res) => {
   //obtengo los datos usuario
   const { email, password } = req.body;
@@ -38,6 +40,9 @@ export const logIn = async (req, res) => {
     res.status(400).json({ mensaje: "Credenciales invalidas" });
   }
   // comparo las contrasenas
+  if (!password) {
+    res.status(400).json({ mensaje: "Credenciales invalidas" });
+  }
   const match = bcrypt.compareSync(password, checkUser.password);
   if (!match) {
     return res.status(400).json({ mensaje: "Credenciales invalidas" });
@@ -55,7 +60,11 @@ export const logIn = async (req, res) => {
   //seteo la cookie en el token ??
   res.cookie("token", token, {
     maxAge: 1000 * 60 * 60 * 24 * 7,
+    //config para deployado
+    httpOnly: true,
+    secure: true,
+    sameSite: "strict",
   });
   //respondo
-  res.json({ mensaje: "Usuario logueado con exito", token });
+  res.json({ mensaje: "Usuario logueado con exito", token, user: checkUser });
 };
