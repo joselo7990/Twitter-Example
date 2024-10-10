@@ -12,7 +12,7 @@ function NuevoComentario() {
   const [isDelete, setIsDelete] = useState([]);
 
   const getCommentarios = () => {
-    fetch(`http://localhost:8080/comments/comments/${postId}`)
+    fetch(`https://twitter-example-1.onrender.com/comments/comments/${postId}`)
       .then((response) => response.json())
       .then((data) => setComments(data));
   };
@@ -24,7 +24,7 @@ function NuevoComentario() {
   }, [postId]);
   useEffect(() => {
     if (postId) {
-      fetch(`http://localhost:8080/post/post/${postId}`)
+      fetch(`https://twitter-example-1.onrender.com/post/post/${postId}`)
         .then((response) => response.json())
         .then((data) => setPost(data));
     }
@@ -32,14 +32,17 @@ function NuevoComentario() {
 
   const comentarPost = (e) => {
     e.preventDefault();
-    fetch(`http://localhost:8080/comments/comments/${postId}`, {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json", // Asegúrate de especificar el tipo de contenido como JSON
-      },
-      credentials: "include", //que mande las cookies//
-      body: JSON.stringify({ content: newComment }),
-    })
+    fetch(
+      `https://twitter-example-1.onrender.com/comments/comments/${postId}`,
+      {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json", // Asegúrate de especificar el tipo de contenido como JSON
+        },
+        credentials: "include", //que mande las cookies//
+        body: JSON.stringify({ content: newComment }),
+      }
+    )
       .then((response) => response.json())
       .then((data) => {
         setComments([...comments, { ...data, name: user.name }]);
@@ -49,10 +52,13 @@ function NuevoComentario() {
   };
 
   const eliminarComentario = async (id) => {
-    const res = await fetch(`http://localhost:8080/comments/comments/${id}`, {
-      method: "DELETE",
-      credentials: "include", //que mande las cookies//
-    });
+    const res = await fetch(
+      `https://twitter-example-1.onrender.com/comments/comments/${id}`,
+      {
+        method: "DELETE",
+        credentials: "include", //que mande las cookies//
+      }
+    );
 
     if (res.status === 200) {
       getCommentarios();

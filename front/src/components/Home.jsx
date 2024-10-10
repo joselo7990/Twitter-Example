@@ -21,14 +21,14 @@ function Home() {
     getAllPost();
   }, []);
   const getAllPost = () => {
-    fetch("http://localhost:8080/post/post")
+    fetch("https://twitter-example-1.onrender.com/post/post")
       .then((response) => response.json())
       .then((data) => setPost(data));
   };
 
   const comentarPost = (e) => {
     e.preventDefault();
-    fetch("http://localhost:8080/post/post", {
+    fetch("https://twitter-example-1.onrender.com/post/post", {
       method: "POST",
       headers: {
         "Content-Type": "application/json", // Asegúrate de especificar el tipo de contenido como JSON
@@ -50,7 +50,7 @@ function Home() {
       return;
     }
     const getCommentById = () => {
-      fetch(`http://localhost:8080/comments/comments/${id}`)
+      fetch(`https://twitter-example-1.onrender.com/comments/comments/${id}`)
         .then((response) => response.json())
         .then((data) => setComments(data));
     };
@@ -59,10 +59,13 @@ function Home() {
 
   const eliminarPosteo = async (id) => {
     console.log(id);
-    const res = await fetch(`http://localhost:8080/post/post/${id}`, {
-      method: "DELETE",
-      credentials: "include", //que mande las cookies//
-    });
+    const res = await fetch(
+      `https://twitter-example-1.onrender.com/post/post/${id}`,
+      {
+        method: "DELETE",
+        credentials: "include", //que mande las cookies//
+      }
+    );
     console.log(res);
     if (res.status === 200) {
       getAllPost();
