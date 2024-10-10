@@ -63,7 +63,7 @@ export const logIn = async (req, res) => {
     //config para deployado
     httpOnly: true,
     secure: true,
-    sameSite: "lax",
+    sameSite: "none",
   });
   //respondo
   res.json({ mensaje: "Usuario logueado con exito", token, user: checkUser });
