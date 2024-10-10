@@ -10,7 +10,7 @@ const app = express();
 // Middleware
 app.use(
   cors({
-    origin: "https://twitter-example-1.onrender.com",
+    origin: "https://twitter-example-three.vercel.app/",
     credentials: true,
   })
 );
