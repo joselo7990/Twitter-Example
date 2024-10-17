@@ -7,10 +7,12 @@ import cookieParser from "cookie-parser";
 import cors from "cors";
 const app = express();
 
+import { FRONT_URL } from "./config.js";
+
 // Middleware
 app.use(
   cors({
-    origin: "https://twitter-example-three.vercel.app",
+    origin: FRONT_URL, // desde donde permito que le peguen a mi back
     credentials: true,
   })
 );

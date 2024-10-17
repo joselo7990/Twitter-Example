@@ -2,6 +2,7 @@ import React from "react";
 import { Link, useParams } from "react-router-dom";
 import { useEffect, useState, useContext } from "react";
 import { UserContext } from "../context/userContext";
+import { API_URL } from "../config";
 
 //crear POSTEO! ver tema del author!
 //login derecha
@@ -21,14 +22,14 @@ function Home() {
     getAllPost();
   }, []);
   const getAllPost = () => {
-    fetch("https://twitter-example-1.onrender.com/post/post")
+    fetch(API_URL + "/post/post")
       .then((response) => response.json())
       .then((data) => setPost(data));
   };
 
   const comentarPost = (e) => {
     e.preventDefault();
-    fetch("https://twitter-example-1.onrender.com/post/post", {
+    fetch(API_URL + "/post/post", {
       method: "POST",
       headers: {
         "Content-Type": "application/json", // Asegúrate de especificar el tipo de contenido como JSON
@@ -50,7 +51,7 @@ function Home() {
       return;
     }
     const getCommentById = () => {
-      fetch(`https://twitter-example-1.onrender.com/comments/comments/${id}`)
+      fetch(API_URL + `/comments/comments/${id}`)
         .then((response) => response.json())
         .then((data) => setComments(data));
     };
@@ -59,13 +60,10 @@ function Home() {
 
   const eliminarPosteo = async (id) => {
     console.log(id);
-    const res = await fetch(
-      `https://twitter-example-1.onrender.com/post/post/${id}`,
-      {
-        method: "DELETE",
-        credentials: "include", //que mande las cookies//
-      }
-    );
+    const res = await fetch(API_URL + `/post/post/${id}`, {
+      method: "DELETE",
+      credentials: "include", //que mande las cookies//
+    });
     console.log(res);
     if (res.status === 200) {
       getAllPost();

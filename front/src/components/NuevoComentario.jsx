@@ -2,6 +2,7 @@ import React from "react";
 import { Link, useParams } from "react-router-dom";
 import { useEffect, useState, useContext } from "react";
 import { UserContext } from "../context/userContext";
+import { API_URL } from "../config";
 
 function NuevoComentario() {
   const { user } = useContext(UserContext);
@@ -12,7 +13,7 @@ function NuevoComentario() {
   const [isDelete, setIsDelete] = useState([]);
 
   const getCommentarios = () => {
-    fetch(`https://twitter-example-1.onrender.com/comments/comments/${postId}`)
+    fetch(API_URL + `/comments/comments/${postId}`)
       .then((response) => response.json())
       .then((data) => setComments(data));
   };
@@ -24,7 +25,7 @@ function NuevoComentario() {
   }, [postId]);
   useEffect(() => {
     if (postId) {
-      fetch(`https://twitter-example-1.onrender.com/post/post/${postId}`)
+      fetch(API_URL + `/post/post/${postId}`)
         .then((response) => response.json())
         .then((data) => setPost(data));
     }
@@ -32,17 +33,14 @@ function NuevoComentario() {
 
   const comentarPost = (e) => {
     e.preventDefault();
-    fetch(
-      `https://twitter-example-1.onrender.com/comments/comments/${postId}`,
-      {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json", // Asegúrate de especificar el tipo de contenido como JSON
-        },
-        credentials: "include", //que mande las cookies//
-        body: JSON.stringify({ content: newComment }),
-      }
-    )
+    fetch(API_URL + `/comments/comments/${postId}`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json", // Asegúrate de especificar el tipo de contenido como JSON
+      },
+      credentials: "include", //que mande las cookies//
+      body: JSON.stringify({ content: newComment }),
+    })
       .then((response) => response.json())
       .then((data) => {
         setComments([...comments, { ...data, name: user.name }]);
@@ -52,13 +50,10 @@ function NuevoComentario() {
   };
 
   const eliminarComentario = async (id) => {
-    const res = await fetch(
-      `https://twitter-example-1.onrender.com/comments/comments/${id}`,
-      {
-        method: "DELETE",
-        credentials: "include", //que mande las cookies//
-      }
-    );
+    const res = await fetch(API_URL + `/comments/comments/${id}`, {
+      method: "DELETE",
+      credentials: "include", //que mande las cookies//
+    });
 
     if (res.status === 200) {
       getCommentarios();

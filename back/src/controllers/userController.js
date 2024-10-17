@@ -1,6 +1,7 @@
 import User from "../models/Users.js";
 import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
+import { NODE_ENV } from "../config.js";
 
 export const createUser = async (req, res) => {
   try {
@@ -62,7 +63,7 @@ export const logIn = async (req, res) => {
     maxAge: 1000 * 60 * 60 * 24 * 7,
     //config para deployado
     httpOnly: true,
-    secure: true,
+    secure: NODE_ENV === "development" ? false : true,
     sameSite: "none",
   });
   //respondo

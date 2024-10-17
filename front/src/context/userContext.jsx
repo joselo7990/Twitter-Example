@@ -1,4 +1,5 @@
 import { createContext, useState, useEffect } from "react";
+import { API_URL } from "../config";
 
 export const UserContext = createContext(null);
 
@@ -10,17 +11,14 @@ export default function UserContextProvider({ children }) {
   //RegistrarunUusuario
   const register = async (data) => {
     try {
-      const res = await fetch(
-        "https://twitter-example-1.onrender.com/users/register",
-        {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json", // Asegúrate de especificar el tipo de contenido como JSON
-          },
-          credentials: "include", //que mande las cookies//
-          body: JSON.stringify(data),
-        }
-      );
+      const res = await fetch(API_URL + "/users/register", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json", // Asegúrate de especificar el tipo de contenido como JSON
+        },
+        credentials: "include", //que mande las cookies//
+        body: JSON.stringify(data),
+      });
       if (res.status === 201) {
         console.log("Correcto");
         alert("registrado");
@@ -32,17 +30,14 @@ export default function UserContextProvider({ children }) {
 
   const logIn = async (data) => {
     try {
-      const res = await fetch(
-        "https://twitter-example-1.onrender.com/users/login",
-        {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json", // Asegúrate de especificar el tipo de contenido como JSON
-          },
-          credentials: "include", //que mande las cookies//
-          body: JSON.stringify(data),
-        }
-      );
+      const res = await fetch(API_URL + "/users/login", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json", // Asegúrate de especificar el tipo de contenido como JSON
+        },
+        credentials: "include", //que mande las cookies//
+        body: JSON.stringify(data),
+      });
       if (res.status === 200) {
         console.log("Correcto");
 
@@ -57,16 +52,13 @@ export default function UserContextProvider({ children }) {
   };
 
   const logOut = async () => {
-    const res = await fetch(
-      "https://twitter-example-1.onrender.com/users/logout",
-      {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json", // Asegúrate de especificar el tipo de contenido como JSON
-        },
-        credentials: "include", //que mande las cookies//
-      }
-    );
+    const res = await fetch(API_URL + "/users/logout", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json", // Asegúrate de especificar el tipo de contenido como JSON
+      },
+      credentials: "include", //que mande las cookies//
+    });
     if (res.status === 200) {
       window.localStorage.removeItem("user");
       setUser(null);
