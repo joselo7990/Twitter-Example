@@ -5,9 +5,10 @@ import { NODE_ENV } from "../config.js";
 
 export const createUser = async (req, res) => {
   try {
-    console.log(req.body);
     //obtengo los datos del usuario
-    const { email, password, name, profilePicture } = req.body;
+    const { email, password, name } = req.body;
+    const profilePicture = req.file;
+
     // chequeo si el usuario existe
     const checkUser = await User.findOne({ email: email });
     if (checkUser) {
@@ -20,7 +21,7 @@ export const createUser = async (req, res) => {
       email,
       password: hashPasword,
       name,
-      profilePicture,
+      profilePicture: profilePicture?.filename,
     });
     await newUser.save();
     res.status(201).json(newUser);

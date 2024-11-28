@@ -17,7 +17,7 @@ function Home() {
   const [id, setId] = useState("");
   const [newTitle, setNewTitle] = useState("");
   const [newContent, setNewContent] = useState("");
-
+  console.log(user);
   useEffect(() => {
     getAllPost();
   }, []);
@@ -69,7 +69,7 @@ function Home() {
       getAllPost();
     }
   };
-
+  // input date //
   return (
     <div className="flex flex-col min-h-screen bg-blue-50">
       <div className="flex justify-end p-4 bg-white shadow-md">
@@ -84,6 +84,10 @@ function Home() {
             >
               Log out
             </button>
+            <img
+              src={API_URL + `/uploads/${user.profilePicture}`}
+              className="w-10 h-10"
+            ></img>
           </div>
         ) : (
           <div>

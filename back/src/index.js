@@ -6,16 +6,23 @@ import commentRouter from "./routes/commentsRoutes.js";
 import cookieParser from "cookie-parser";
 import cors from "cors";
 const app = express();
+import * as url from "url";
+import path from "node:path";
+
+const __dirname = url.fileURLToPath(new URL(".", import.meta.url));
 
 import { FRONT_URL } from "./config.js";
 
 // Middleware
+
 app.use(
   cors({
     origin: FRONT_URL, // desde donde permito que le peguen a mi back
     credentials: true,
   })
 );
+
+app.use("/uploads", express.static(path.join(__dirname, "../uploads"))); //pictures
 app.use(cookieParser());
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));

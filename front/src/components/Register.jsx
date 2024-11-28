@@ -8,10 +8,11 @@ function Registrer(params) {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [name, setName] = useState("");
+  const [profilePicture, setProfilePicture] = useState({});
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    await register({ email, password, name });
+    await register({ email, password, name, profilePicture });
     navigate("/login");
   };
   return (
@@ -35,13 +36,16 @@ function Registrer(params) {
               onChange={(e) => setPassword(e.target.value)}
             />
             <input
-              type="name"
+              type="text"
               placeholder="Name"
               className="w-full p-2 border border-gray-300 rounded mb-4"
               value={name}
               onChange={(e) => setName(e.target.value)}
             />
-
+            <input
+              type="file"
+              onChange={(e) => setProfilePicture(e.target.files[0])}
+            />
             <button className="w-full bg-blue-600 text-white py-2 rounded">
               Registrarse
             </button>

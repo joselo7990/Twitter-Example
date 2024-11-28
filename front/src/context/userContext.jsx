@@ -11,13 +11,18 @@ export default function UserContextProvider({ children }) {
   //RegistrarunUusuario
   const register = async (data) => {
     try {
+      let formData = new FormData();
+      formData.append("email", data.email);
+      formData.append("password", data.password);
+      formData.append("name", data.name);
+      formData.append("profilePicture", data.profilePicture);
       const res = await fetch(API_URL + "/users/register", {
         method: "POST",
-        headers: {
-          "Content-Type": "application/json", // Asegúrate de especificar el tipo de contenido como JSON
-        },
+        // headers: {
+        //   "Content-Type": "multipart/form-data", // Asegúrate de especificar el tipo de contenido como JSON
+        // },
         credentials: "include", //que mande las cookies//
-        body: JSON.stringify(data),
+        body: formData,
       });
       if (res.status === 201) {
         console.log("Correcto");
